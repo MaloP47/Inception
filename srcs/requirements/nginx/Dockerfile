@@ -1,17 +1,16 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
-RUN apt update \
-    && apt upgrade \
-    && apt install nginx -y \
-    && apt install curl -y \
-    && mkdir -p /etc/nginx/ssl \
-    && apt install openssl -y \
-    && openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=mpeulet.42.fr/UID=login" \
-    && mkdir -p /var/run/nginx
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+    nginx openssl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt/* \
+    && openssl req -x509 -days 365 -nodes -newkey rsa:4096 \
+	-keyout /etc/ssl/private/nginx.key \
+	-out /etc/ssl/certs/nginx.crt -sha256 -subj "/CN=mpeulet.42.fr"
 
-COPY conf/nginx.conf /etc/nginx/nginx.conf
-
-RUN chmod 755 /var/www/html \
-    && chown -R www-data:www-data /var/www/html 
+COPY conf/nginx.conf /etc/nginx/sites-available/default
 
 CMD ["nginx", "-g", "daemon off;"]
