@@ -1,16 +1,15 @@
-FROM debian:bullseye-slim
+FROM alpine:3.18.6
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-    nginx openssl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/cache/apt/* \
-    && openssl req -x509 -days 365 -nodes -newkey rsa:4096 \
-	-keyout /etc/ssl/private/nginx.key \
-	-out /etc/ssl/certs/nginx.crt -sha256 -subj "/CN=mpeulet.42.fr"
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache nginx openssl \
+    && openssl req -x509 -days 90 -nodes -newkey rsa:2048 \
+    -keyout /etc/ssl/private/nginx.key \
+    -out /etc/ssl/certs/nginx.crt -sha256 -subj "/CN=mpeulet.42.fr" \
+     && rm -rf /var/cache/apk/*
 
-COPY conf/nginx.conf /etc/nginx/sites-available/default
+# EXPOSE ${NGINX_PORT}
 
-CMD ["nginx", "-g", "daemon off;"]
+# COPY ./conf/nginx.conf /etc/nginx/sites-available/default
+
+# CMD ["nginx", "-g", "daemon off;"]

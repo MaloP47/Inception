@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+ mariadb:
+  container_name: mariadb
+  restart: unless-stopped
+  build:
+   context: requierments/mariadb
+   dockerfile: Dockerfile
+  image: mariadb
+  ports:
+   - 3306:3306
+  environment:
+   env-file: .env
+
+ nginx:
+  container_name: nginx
+  restart: unless-stopped
+  build:
+   context: requierments/nginx
+   dockerfile: Dockerfile
+  image: nginx
+  ports:
+   - 443:443
+  environment:
+   env-file: .env
