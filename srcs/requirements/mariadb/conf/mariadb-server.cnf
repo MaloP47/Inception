@@ -1,0 +1,5 @@
+[mysqld]
+user=mysql
+bind_address=*
+datadir= /var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
