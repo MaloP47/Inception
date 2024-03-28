@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/03/28 14:18:11 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/03/28 15:38:26 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ CYAN			= \033[0;96m
 WHITE			= \033[0;97m
 ORANGE			= \033[38;5;214m
 
+PROJECT_DATA	= /home/${USER}/data/
 MDB_VOLUME		= /home/${USER}/data/maridb
 WP_VOLUME		= /home/${USER}/data/wp
 
@@ -33,16 +34,42 @@ all:
 		@echo "$(BLUE)"; cat ./tools/dockerart.txt; echo "$(DEF_COLOR)\n"
 		@if [ ! -d $(MDB_VOLUME) ]; then \
 			mkdir -p $(MDB_VOLUME); \
-			echo "$(BLUE)mariadb volume created.$(DEF_COLOR)"; \
+			@echo "$(YELLOW)local mariadb directory created.$(DEF_COLOR)"; \
 		fi
+		@if [ ! -d $(WP_VOLUME) ]; then \
+			mkdir -p $(WP_VOLUME); \
+			@echo "$(MAGENTA)local wordpress directory created.$(DEF_COLOR)"; \
+		fi
+		docker-compose -f ./srcs/docker-compose.yaml up -d --build
+		@echo "$(GREEN)Built is complete. Service started.$(DEF_COLOR)"
+
+build:
+		docker-compose -f ./srcs/docker-compose.yaml build
+		@echo "$(CYAN)Built is complete. You may start service.$(DEF_COLOR)"
+
+images:
+		@docker images
+
+start:
+		@docker-compose -f ./srcs/docker-compose.yaml start
+		@echo "$(GREEN)Service is started.$(DEF_COLOR)"
+stop:
+		@docker-compose -f ./srcs/docker-compose.yaml stop
+		@echo "$(ORANGE)Service is stopped.$(DEF_COLOR)"
 
 clean:
+		@docker-compose -f ./srcs/docker-compose.yaml down
+		@echo "$(RED)Service was downed and removed.$(DEF_COLOR)"
 
-fclean:
-		rm -rf /home/mpeulet/data/database/*
-		rm -rf /home/mpeulet/data/files/*
+fclean: clean
+		@rm -rf $(PROJECT_DATA)
+		@echo "$(RED)All local datas erased.$(DEF_COLOR)";
+		docker rm $(docker ps -a -q)
+		docker rmi $(docker images -q)
+		docker volume prune -f
+		docker network prune -f
 		docker system prune -af
 
 re: fclean all
 
-.phony: all clean fclean re
+.phony: all build images start stop clean fclean re

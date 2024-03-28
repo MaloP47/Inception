@@ -8,17 +8,31 @@ services:
   build:
    context: requierments/mariadb
    dockerfile: Dockerfile
-  image: mariadb
+  image: mariadb:inception
+  volumes:
+    - mariadb:/var/lib/mysql
   ports:
    - 3306:3306
   environment:
-   env-file: .env
+   env_file: .env
   networks:
    - inception
 
  wordpress:
   container_name: wordpress
   restart: unless-stopped
+  build:
+    context: requierments/wordpress
+    dockerfile: Dockerfile
+  image: wordpress:inception
+  volumes:
+    - wp:/var/www/wp
+  env_file: .env
+  networks:
+    -inception
+  depends_on:
+    mariadb:
+      condition: service_started
 
  nginx:
   container_name: nginx
@@ -26,12 +40,32 @@ services:
   build:
    context: requierments/nginx
    dockerfile: Dockerfile
-  image: nginx
+  image: nginx:inception
+  volumes:
+    -wordpress:/var/www/wp
   ports:
    - 443:443
-  environment:
-   env-file: .env
+  networks:
+    - inception
+  depends_on:
+    wordpress:
+      condition: service_started
 
 networks:
  inception:
+  name: inception
   driver: bridge
+
+volumes:
+
+  mariadb:
+    driver: local
+    driver_opts:
+      device: /home/${USER}/data/mariadb
+      type: bind
+
+  wp:
+    driver: local
+    driver_opts:
+      device: /home/${USER}/data/wp
+      type: bind
