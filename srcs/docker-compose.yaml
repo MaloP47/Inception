@@ -29,7 +29,7 @@ services:
     - wp:/var/www/wp
   env_file: .env
   networks:
-    -inception
+    - inception
   depends_on:
     mariadb:
       condition: service_started
@@ -42,7 +42,7 @@ services:
    dockerfile: Dockerfile
   image: nginx:inception
   volumes:
-    -wordpress:/var/www/wp
+    - wordpress:/var/www/wp
   ports:
    - 443:443
   networks:
