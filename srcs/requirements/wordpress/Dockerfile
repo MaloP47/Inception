@@ -16,13 +16,11 @@ RUN apk update \
 	php81-phar \
 	php81-intl \
 	php81-dom \
-	php81-xmlreader \
-	php81-ctype \
-	php81-session \
 	php81-mbstring \
-	php81-gd \
 	&& curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/bin/wp-cli.phar \
-	&& rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
+	&& rm -rf /var/cache/apk/* /tmp/* /var/tmp/*l \
+	&& wp-cli.phar cli update --yes --allow-root \
+	&& wp-cli.phar core download --allow-root 
 
