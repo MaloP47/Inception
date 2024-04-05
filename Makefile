@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/03/29 10:21:51 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/04/05 15:23:01 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ CYAN			= \033[0;96m
 WHITE			= \033[0;97m
 ORANGE			= \033[38;5;214m
 
-PROJECT_DATA	= /home/${USER}/data/
-MDB_VOLUME		= /home/${USER}/data/maridb
+PROJECT_DATA	= /home/${USER}/data
+MDB_VOLUME		= /home/${USER}/data/mariadb
 WP_VOLUME		= /home/${USER}/data/wp
 
 all:
@@ -34,10 +34,12 @@ all:
 		@echo "$(BLUE)"; cat ./tools/dockerart.txt; echo "$(DEF_COLOR)\n"
 		@if [ ! -d $(MDB_VOLUME) ]; then \
 			mkdir -p $(MDB_VOLUME); \
+			chmod -R 777 $(MDB_VOLUME); \
 			echo "$(YELLOW)local mariadb directory created.$(DEF_COLOR)"; \
 		fi
 		@if [ ! -d $(WP_VOLUME) ]; then \
 			mkdir -p $(WP_VOLUME); \
+			chmod -R 777 $(WP_VOLUME); \
 			echo "$(MAGENTA)local wordpress directory created.$(DEF_COLOR)"; \
 		fi
 		docker compose -f ./srcs/docker-compose.yaml up -d --build
@@ -62,13 +64,17 @@ clean:
 		@echo "$(RED)Service was downed and removed.$(DEF_COLOR)"
 
 fclean: clean
-		@rm -rf $(PROJECT_DATA)
-		@echo "$(RED)All local datas erased.$(DEF_COLOR)";
-		docker rm $(docker ps -a -q)
-		docker rmi $(docker images -q)
-		docker volume prune -f
-		docker network prune -f
-		docker system prune -af
+		@sudo rm -rf $(PROJECT_DATA)
+		@echo "$(RED)All local data erased.$(DEF_COLOR)"
+		@if [ "$$(docker images -q)" != "" ]; then \
+			docker rmi -f $$(docker images -q); \
+		fi
+		@if [ "$$(docker volume ls -q)" != "" ]; then \
+			docker volume rm $$(docker volume ls -q); \
+		fi
+		-docker network prune -f
+		-docker system prune -af
+		-docker image prune -a -f
 
 re: fclean all
 
