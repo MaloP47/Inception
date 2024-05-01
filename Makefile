@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/04/05 15:23:01 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/01 13:37:50 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,9 +72,9 @@ fclean: clean
 		@if [ "$$(docker volume ls -q)" != "" ]; then \
 			docker volume rm $$(docker volume ls -q); \
 		fi
-		-docker network prune -f
-		-docker system prune -af
-		-docker image prune -a -f
+		docker network prune -f
+		docker system prune -af
+		docker image prune -a -f
 
 re: fclean all
 

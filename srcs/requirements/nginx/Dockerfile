@@ -9,6 +9,7 @@ RUN apk update \
     && chown -R inception:inception /var/log/nginx \
     && chown -R inception:inception /etc/nginx/ \
     && chown -R inception:inception /var/www/worpress/ \
+	&& chown -R inception:inception /etc/ssl/ \
     && rm -rf /var/cache/apk/* \
     && openssl req -x509 -days 90 -nodes -newkey rsa:2048 \
     -keyout /etc/ssl/private/nginx.key \
@@ -18,7 +19,7 @@ RUN apk update \
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf 
 COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 
-USER inception
+# USER inception
 
 EXPOSE 443
 
