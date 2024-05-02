@@ -1,8 +1,24 @@
 #!/bin/sh
 
+MDB_DB=maindb
+MDB_ADMIN=maindbuser
+MDB_ADMIN_PASS=maindbpass
+MDB_ROOT_PASS=maindbroot
+
+MYURL=mpeulet.42.fr
+MYSITE=inception
+WP_ADMIN=malop
+WP_ADMPASS=Test123
+WP_ADM_MAIL=malop@inception.fr
+
+WP_AUTHOR=malo
+WP_AUTHOR_MAIL=malo@inception.fr
+WP_AUTHOR_PASS=Test123
+
+
 if [ ! -f wp-config.php ]; then
     # Create the wp-config.php file
-    wp config create --dbname=${DB_DB} \
+    wp config create --dbname=${MDB_DB} \
                      --dbuser=${MDB_ADMIN} \
                      --dbpass=${MDB_ADMIN_PASS} \
                      --dbhost=mariadb:3306;

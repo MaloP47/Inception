@@ -10,7 +10,7 @@ services:
   volumes:
     - mariadb_data:/var/lib/mysql
   environment:
-   env_file: ".env"
+   env_file: .env
   networks:
    - inception
 
@@ -23,7 +23,7 @@ services:
   image: wordpress:inception
   volumes:
     - wp_data:/var/www/wp
-  env_file: ".env"
+  env_file: .env
   networks:
     - inception
   depends_on:

@@ -1,6 +1,6 @@
 FROM alpine:3.18.6
 
-ARG WP_USER=wp
+ARG WP_USER=wp-user
 
 RUN apk update \
     && apk upgrade \
@@ -30,8 +30,8 @@ RUN chmod +x init_wp.sh \
     && chown ${WP_USER}:${WP_USER} init_wp.sh \
 	&& mkdir -p /var/log/php81 \
 	&& chown -R ${WP_USER}:${WP_USER} /var/log/php81 \
-	&& wp core download --version=6.5 --path=/var/www/wp 
+	&& wp core download --version=6.3 --path=/var/www/wp 
 
-USER ${WP_USER}
+USER ${WP_USER}:${WP_USER}
 
 ENTRYPOINT ["./init_wp.sh"]
