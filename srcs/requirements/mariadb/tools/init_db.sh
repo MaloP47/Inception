@@ -1,10 +1,5 @@
 #!/bin/sh
 
-MDB_DB="inception-db"
-MDB_USER="inception-db-user"
-MDB_USER_PASSWORD="dbuserpass123"
-MDB_ROOT_PASSWORD="dbrootpass123"
-
 mysqld_safe &
 
 until mysqladmin ping; do
@@ -14,9 +9,9 @@ done
 
 mysql -e "CREATE DATABASE IF NOT EXISTS \`${MDB_DB}\`;"
 
-mysql -e "CREATE USER IF NOT EXISTS \`${MDB_USER}\`@'localhost' IDENTIFIED BY '${MDB_USER_PASSWORD}';"
+mysql -e "CREATE USER IF NOT EXISTS \`${MDB_ADMIN}\`@'localhost' IDENTIFIED BY '${MDB_ADMIN_PASSWORD}';"
 
-mysql -e "GRANT ALL PRIVILEGES ON \`${MDB_DB}\`.* TO \`${MDB_USER}\`@'%' IDENTIFIED BY '${MDB_USER_PASSWORD}';"
+mysql -e "GRANT ALL PRIVILEGES ON \`${MDB_DB}\`.* TO \`${MDB_ADMIN}\`@'%' IDENTIFIED BY '${MDB_ADMIN_PASSWORD}';"
 
 mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MDB_ROOT_PASSWORD}';"
 
