@@ -1,10 +1,5 @@
 #!/bin/sh
 
-MDB_DB=maindb
-MDB_ADMIN=maindbuser
-MDB_ADMIN_PASS=maindbpass
-MDB_ROOT_PASS=maindbroot
-
 mysqld_safe &
 
 until mysqladmin ping >/dev/null 2>&1; do

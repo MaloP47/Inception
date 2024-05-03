@@ -9,8 +9,7 @@ services:
   image: mariadb:inception
   volumes:
     - mariadb_data:/var/lib/mysql
-  environment:
-   env_file: .env
+  env_file: .env
   networks:
    - inception
 
@@ -42,19 +41,19 @@ services:
   ports:
    - 443:443
   networks:
-    - inception
+   - inception
   depends_on:
     wordpress:
       condition: service_started
 
 networks:
  inception:
-  name: inception
+  driver: bridge
 
 volumes:
 
   mariadb_data:
-    name: mdb
+    name: DB
     driver: local
     driver_opts:
       o: bind
@@ -62,7 +61,7 @@ volumes:
       device: /home/${USER}/data/mariadb
 
   wp_data:
-    name: wpdb
+    name: wordpress
     driver: local
     driver_opts:
       o: bind

@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/01 13:37:50 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/03 12:43:07 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,14 @@ PROJECT_DATA	= /home/${USER}/data
 MDB_VOLUME		= /home/${USER}/data/mariadb
 WP_VOLUME		= /home/${USER}/data/wp
 
-all:
+all: voldir
 		@if [ ! -f ./srcs/.env ]; then \
 			echo "[❌] .env file missing"; exit 1; \
 		fi
 		@echo "$(BLUE)"; cat ./tools/dockerart.txt; echo "$(DEF_COLOR)\n"
+
+voldir:
+
 		@if [ ! -d $(MDB_VOLUME) ]; then \
 			mkdir -p $(MDB_VOLUME); \
 			chmod -R 777 $(MDB_VOLUME); \
@@ -52,8 +55,8 @@ build:
 images:
 		@docker images
 
-start:
-		@docker compose -f ./srcs/docker-compose.yaml start
+start: voldir
+		@docker compose -f ./srcs/docker-compose.yaml up
 		@echo "$(GREEN)Service is started.$(DEF_COLOR)"
 stop:
 		@docker compose -f ./srcs/docker-compose.yaml stop

@@ -1,5 +1,7 @@
 FROM alpine:3.18.6
 
+ARG MDBUSR=mysql
+
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache mariadb mariadb-client \
@@ -13,7 +15,7 @@ RUN apk update \
     && mkdir -p /var/log/mysql \
     && chown -R mysql:mysql /var/log/mysql \
     && chmod -R 755 /var/log/mysql \
-    && mysql_install_db --user=mysql --datadir=/var/lib/mysql 
+    && mysql_install_db --user=${MDBUSR} --datadir=/var/lib/mysql 
 	
 COPY ./conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
 COPY ./conf/my.cnf /etc/mysql/my.cnf
