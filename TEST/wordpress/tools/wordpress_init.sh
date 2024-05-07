@@ -21,11 +21,11 @@ else
 	mv wordpress/* .
 	sleep 5
 	# configuring wordpress with the cli
-	wp-cli config create --allow-root --dbname=$MYSQL_DB --dbuser=$MYSQL_USER \
-		--dbpass=$MYSQL_PSW --dbhost=mariadb:3306
-	wp-cli core install --url=$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN \
-		--admin_password=$WP_ADMIN_PSW --admin_email=$WP_ADMIN_EMAIL
-	wp-cli user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PSW
+	wp-cli config create --allow-root --dbname=$MDB_DB --dbuser=$MDB_ADMIN \
+		--dbpass=$MDB_ADMIN_PASS --dbhost=mariadb:3306
+	wp-cli core install --url=$MYURL --title=$:$MYSITE --admin_user=$WP_ADMIN \
+		--admin_password=$WP_ADM_PASS --admin_email=$WP_ADMIN_MAIL
+	wp-cli user create $WP_AUTHOR $WP_AUTHOR_MAIL --role=author --user_pass=$WP_AUTHOR_PASS
 
 	# adding manually info in wp-config for redis plugin
 	sed -i "s/require_once/define('WP_REDIS_HOST', 'redis');\nrequire_once/g" wp-config.php
