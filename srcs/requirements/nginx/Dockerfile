@@ -11,6 +11,7 @@ RUN apk update \
     && chown -R inception:inception /var/www/worpress/ \
 	&& chown -R inception:inception /etc/ssl/ \
     && rm -rf /var/cache/apk/* \
+    && rm /etc/nginx/http.d/default.conf \
     && openssl req -x509 -days 90 -nodes -newkey rsa:2048 \
     -keyout /etc/ssl/private/nginx.key \
     -out /etc/ssl/certs/nginx.crt -sha256 -subj \
