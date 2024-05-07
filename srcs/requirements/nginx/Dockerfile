@@ -4,11 +4,11 @@ RUN apk update \
     && apk upgrade \
     && apk add --no-cache nginx openssl \
     && adduser -D inception \
-    && mkdir -p /var/www/worpress/ \
+    && mkdir -p /var/www/html \
     && chown -R inception:inception /var/lib/nginx \
     && chown -R inception:inception /var/log/nginx \
     && chown -R inception:inception /etc/nginx/ \
-    && chown -R inception:inception /var/www/worpress/ \
+    && chown -R inception:inception /var/www/html \
 	&& chown -R inception:inception /etc/ssl/ \
     && rm -rf /var/cache/apk/* \
     && rm /etc/nginx/http.d/default.conf \
