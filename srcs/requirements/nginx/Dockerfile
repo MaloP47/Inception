@@ -20,8 +20,6 @@ RUN apk update \
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf 
 COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 
-# USER inception
-
-EXPOSE 443
+EXPOSE 443/tcp
 
 CMD ["nginx", "-g", "daemon off;"]
