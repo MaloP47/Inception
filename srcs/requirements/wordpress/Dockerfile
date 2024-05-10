@@ -54,13 +54,13 @@ RUN apk add bash curl less git vim \
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/bin/wp-cli
 
-# copying wordpress_init.sh in the docker for entrypoint
-COPY tools/wordpress_init.sh /scripts/
-RUN chmod +x /scripts/wordpress_init.sh
+# copying init_wp.sh in the docker for entrypoint
+COPY tools/init_wp.sh /scripts/
+RUN chmod +x /scripts/init_wp.sh
 
 # copying www.conf in conveniant folder for php-fpm
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
 # container entrypoint
-ENTRYPOINT ["/scripts/wordpress_init.sh"]
+ENTRYPOINT ["/scripts/init_wp.sh"]
 
