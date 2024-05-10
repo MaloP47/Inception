@@ -60,6 +60,7 @@ else
 		--admin_password=$WP_ADMIN_PASS --admin_email=$WP_ADM_MAIL
 	wp-cli user create $WP_AUTHOR $WP_AUTHOR_MAIL --role=author --user_pass=$WP_AUTHOR_PASS
 
+    chown -R www-data:www-data /var/www/html
 fi
 
 # running php
