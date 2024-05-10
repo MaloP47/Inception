@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/10 12:55:19 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/10 13:03:21 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,9 @@ fclean42: clean
 		docker network prune -f
 		docker system prune -af
 		docker image prune -a -f
+
+stopcontainers:
+		@docker stop $$(docker ps -q)
 
 re: fclean all
 
