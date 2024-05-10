@@ -2,7 +2,7 @@ services:
 
  mariadb:
   container_name: mariadb
-  restart: unless-stopped
+  restart: always
   build:
    context: requirements/mariadb
    dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
 
  wordpress:
   container_name: wordpress
-  restart: unless-stopped
+  restart: always
   build:
     context: requirements/wordpress
     dockerfile: Dockerfile
@@ -31,7 +31,7 @@ services:
 
  nginx:
   container_name: nginx
-  restart: unless-stopped
+  restart: always
   build:
    context: requirements/nginx
    dockerfile: Dockerfile
