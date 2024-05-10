@@ -16,10 +16,7 @@ RUN apk update \
     && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
     && addgroup -S ${WP_USER} -g 1000 \
     && adduser -S -G ${WP_USER} ${WP_USER} \
-    && mkdir -p /var/www/wp \
-    && chown -R ${WP_USER}:${WP_USER} /var/www/wp \
-	&& chown -R ${WP_USER}:${WP_USER} /usr/bin \
-	&& chmod +x /usr/bin/wp
+    && mkdir -p /var/www/wp 
 
 COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 COPY ./tools/init_wp.sh /var/www/wp
@@ -28,9 +25,9 @@ WORKDIR /var/www/wp
 
 RUN chmod +x init_wp.sh \
     && chown ${WP_USER}:${WP_USER} init_wp.sh \
-	&& mkdir -p /var/log/php81 \
-	&& chown -R ${WP_USER}:${WP_USER} /var/log/php81 \
-	&& wp core download --version=6.3 --path=/var/www/wp 
+	&& wp core download --version=6.4.3 --path=/var/www/wp \
+    && chown -R ${WP_USER}:${WP_USER} /var/www/wp \
+	&& chown -R ${WP_USER}:${WP_USER} /usr/bin 
 
 USER ${WP_USER}:${WP_USER}
 

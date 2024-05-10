@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sleep 5
+
 if [ ! -f wp-config.php ]; then
     # Create the wp-config.php file
     wp config create --dbname=${MDB_DB} \
