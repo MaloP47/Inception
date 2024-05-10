@@ -1,23 +1,23 @@
 #!/bin/sh
 
-mysqld_safe &
+tmp_file=$(mktemp)
+if [ ! -f "$tmp_file" ]; then
+    return 1
+fi
 
-until mysqladmin ping >/dev/null 2>&1; do
-    sleep 1
-done
+cat <<EOF > "$tmp_file"
+USE mysql;
+FLUSH PRIVILEGES;
+GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MDB_ROOT_PASS' WITH GRANT OPTION;
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MDB_ROOT_PASS');
+DROP DATABASE IF EXISTS test;
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS \`$MDB_DB\` CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL ON \`$MDB_DB\`.* TO '$MDB_ADMIN'@'%' IDENTIFIED BY '$MDB_ADMIN_PASS';
+EOF
 
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${MDB_DB}\`;"
+/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < "$tmp_file"
 
-mysql -e "CREATE USER IF NOT EXISTS \`${MDB_ADMIN}\`@'localhost' IDENTIFIED BY '${MDB_ADMIN_PASS}';"
+rm -f "$tmp_file"
 
-mysql -e "GRANT ALL PRIVILEGES ON \`${MDB_DB}\`.* TO \`${MDB_ADMIN}\`@'%' IDENTIFIED BY '${MDB_ADMIN_PASS}';"
-
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MDB_ROOT_PASS}';"
-
-mysql -e "DROP DATABASE IF EXISTS test;"
-
-mysql -e "FLUSH PRIVILEGES;"
-
-mysqladmin shutdown
-
-exec mysqld_safe;
+exec /usr/bin/mysqld --user=mysql --console --skip-name-resolve --skip-networking=0

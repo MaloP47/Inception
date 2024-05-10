@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/03 12:43:07 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/10 11:31:48 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ clean:
 		@echo "$(RED)Service was downed and removed.$(DEF_COLOR)"
 
 fclean: clean
-		@sudo rm -rf $(PROJECT_DATA)
+		@rm -rf $(PROJECT_DATA)
 		@echo "$(RED)All local data erased.$(DEF_COLOR)"
 		@if [ "$$(docker images -q)" != "" ]; then \
 			docker rmi -f $$(docker images -q); \

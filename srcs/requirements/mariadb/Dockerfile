@@ -1,30 +1,17 @@
 FROM alpine:3.18.6
 
-ARG MDBUSR=mysql
-
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache mariadb mariadb-client \
+    && apk add --no-cache mariadb mariadb-client mariadb-server-utils pwgen \
     && rm -rf /var/cache/apk/* \
-    && mkdir -p /var/run/mysqld \
-    && chown -R mysql:mysql /var/run/mysqld \
-    && chmod -R 755 /var/run/mysqld \
-    && mkdir -p /var/lib/mysql \
+    && mysql_install_db --user=${MDBUSR} --ldata=/var/lib/mysql \
+    && mkdir -p /run/mysqld \
+    && chown -R mysql:mysql /run/mysqld \
+    && chmod -R 755 /run/mysqld \
     && chown -R mysql:mysql /var/lib/mysql \
-    && chmod -R 755 /var/lib/mysql \
-    && mkdir -p /var/log/mysql \
-    && chown -R mysql:mysql /var/log/mysql \
-    && chmod -R 755 /var/log/mysql \
-    && mysql_install_db --user=${MDBUSR} --datadir=/var/lib/mysql 
+    && chmod -R 755 /var/lib/mysql
 	
-COPY ./conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
-COPY ./conf/my.cnf /etc/mysql/my.cnf
-COPY ./conf/my.cnf /etc/mysql/mariadb.conf.d/my.cnf
-COPY ./tools/init_db.sh .
+COPY ./tools/init_db.sh /scripts/
+RUN chmod +x /scripts/init_db.sh
 
-RUN chown mysql:mysql ./init_db.sh \
-    && chmod +x /init_db.sh
-
-USER mysql:mysql
-
-ENTRYPOINT ["./init_db.sh"]
+ENTRYPOINT ["/scripts/init_db.sh"]
