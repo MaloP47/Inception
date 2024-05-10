@@ -1,34 +1,5 @@
 services:
 
- mariadb:
-  container_name: mariadb
-  restart: always
-  build:
-   context: requirements/mariadb
-   dockerfile: Dockerfile
-  image: mariadb:inception
-  volumes:
-    - mariadb_data:/var/lib/mysql
-  env_file: .env
-  networks:
-   - inception
-
- wordpress:
-  container_name: wordpress
-  restart: always
-  build:
-    context: requirements/wordpress
-    dockerfile: Dockerfile
-  image: wordpress:inception
-  volumes:
-    - wp_data:/var/www/wp
-  env_file: .env
-  networks:
-    - inception
-  depends_on:
-    mariadb:
-      condition: service_started
-
  nginx:
   container_name: nginx
   restart: always
@@ -42,9 +13,32 @@ services:
    - 443:443
   networks:
    - inception
-  depends_on:
-    wordpress:
-      condition: service_started
+
+ mariadb:
+  container_name: mariadb
+  restart: always
+  build:
+   context: requirements/mariadb
+   dockerfile: Dockerfile
+  image: mariadb:inception
+  volumes:
+    - mariadb_data:/var/lib/mysql
+  env_file: .env
+  networks:
+   - inception
+ 
+ wordpress:
+  container_name: wordpress
+  restart: always
+  build:
+    context: requirements/wordpress
+    dockerfile: Dockerfile
+  image: wordpress:inception
+  volumes:
+    - wp_data:/var/www/wp
+  env_file: .env
+  networks:
+    - inception
 
 networks:
  inception:
@@ -67,3 +61,4 @@ volumes:
       o: bind
       type: none
       device: /home/${USER}/data/wp
+
