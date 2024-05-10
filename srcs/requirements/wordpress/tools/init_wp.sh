@@ -1,4 +1,4 @@
-# #!/bin/sh
+#!/bin/sh
 
 # # Create the wp-config.php file
 # wp config create --dbname=${MDB_DB} \
