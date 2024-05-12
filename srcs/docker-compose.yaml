@@ -21,7 +21,7 @@ services:
    dockerfile: Dockerfile
   image: nginx:inception
   volumes:
-    - wp_data:/var/www/wp
+    - wp_data:/var/www/html
   ports:
    - 443:443
   networks:
@@ -38,7 +38,7 @@ services:
     dockerfile: Dockerfile
   image: wordpress:inception
   volumes:
-    - wp_data:/var/www/wp
+    - wp_data:/var/www/html
   env_file: .env
   networks:
     - inception
@@ -67,4 +67,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/${USER}/data/wp
+      device: /home/${USER}/data/wordpress

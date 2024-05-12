@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/10 13:03:21 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/12 21:08:28 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ ORANGE			= \033[38;5;214m
 
 PROJECT_DATA	= /home/${USER}/data
 MDB_VOLUME		= /home/${USER}/data/mariadb
-WP_VOLUME		= /home/${USER}/data/wp
+WP_VOLUME		= /home/${USER}/data/wordpress
 
 all: voldir
 		@if [ ! -f ./srcs/.env ]; then \
