@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/12 21:08:28 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/13 12:33:15 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ images:
 		@docker images
 
 start: voldir
-		@docker compose -f ./srcs/docker-compose.yaml up
+		@docker compose -f ./srcs/docker-compose.yaml up -d
 		@echo "$(GREEN)Service is started.$(DEF_COLOR)"
 stop:
 		@docker compose -f ./srcs/docker-compose.yaml stop
