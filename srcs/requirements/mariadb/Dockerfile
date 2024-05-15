@@ -2,9 +2,9 @@ FROM alpine:3.18.6
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache mariadb mariadb-client mariadb-server-utils pwgen \
+    && apk add --no-cache mariadb mariadb-client mariadb-server-utils \
     && rm -rf /var/cache/apk/* \
-    && mysql_install_db --user=${MDBUSR} --ldata=/var/lib/mysql \
+    && mysql_install_db --user=myql --ldata=/var/lib/mysql \
     && mkdir -p /run/mysqld \
     && chown -R mysql:mysql /run/mysqld \
     && chmod -R 755 /run/mysqld \
