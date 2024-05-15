@@ -7,6 +7,7 @@ RUN apk update \
     && apk add --no-cache \
     curl \
     mariadb-client \
+	bash \
     php81 php81-fpm php81-mysqli php81-json php81-openssl php81-curl \
     php81-zlib php81-xml php81-phar php81-intl php81-dom php81-mbstring \
     php81-opcache php81-gd php81-redis \
