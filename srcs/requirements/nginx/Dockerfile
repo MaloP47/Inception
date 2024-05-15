@@ -3,7 +3,6 @@ FROM alpine:3.18.6
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache nginx openssl \
-    && adduser -D inception \
     && mkdir -p /var/www/html \
 	&& chown -R nginx:nginx /var/www/html \
 	&& chmod -R 755 /var/www/html \
