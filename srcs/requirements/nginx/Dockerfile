@@ -13,7 +13,6 @@ RUN apk update \
     -out /etc/ssl/certs/nginx.crt -sha256 -subj \
     "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=mpeulet.42.fr/UID=mpeulet" 
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf 
 COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 443/tcp

@@ -6,7 +6,7 @@
 #    By: mpeulet <mpeulet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/18 09:13:18 by mpeulet           #+#    #+#              #
-#    Updated: 2024/05/13 12:33:15 by mpeulet          ###   ########.fr        #
+#    Updated: 2024/05/15 12:21:28 by mpeulet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,12 @@ MDB_VOLUME		= /home/${USER}/data/mariadb
 WP_VOLUME		= /home/${USER}/data/wordpress
 
 all: voldir
+
+voldir:
 		@if [ ! -f ./srcs/.env ]; then \
 			echo "[❌] .env file missing"; exit 1; \
 		fi
 		@echo "$(BLUE)"; cat ./tools/dockerart.txt; echo "$(DEF_COLOR)\n"
-
-voldir:
-
 		@if [ ! -d $(MDB_VOLUME) ]; then \
 			mkdir -p $(MDB_VOLUME); \
 			chmod -R 777 $(MDB_VOLUME); \
@@ -46,7 +45,7 @@ voldir:
 			echo "$(MAGENTA)local wordpress directory created.$(DEF_COLOR)"; \
 		fi
 		docker compose -f ./srcs/docker-compose.yaml up -d --build
-		@echo "$(GREEN)Built is complete. Service started.$(DEF_COLOR)"
+		@echo "$(GREEN)Build is complete. Service started.$(DEF_COLOR)"
 
 build:
 		docker compose -f ./srcs/docker-compose.yaml build

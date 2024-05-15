@@ -5,6 +5,11 @@ if [ ! -f "$tmp_file" ]; then
     return 1
 fi
 
+MDB_DB=${MDB_DB:-""}
+MDB_ADMIN=${MDB_ADMIN:-""}
+MDB_ADMIN_PASS=${MDB_ADMIN_PASS:-""}
+MDB_ROOT_PASSWORD=${MDB_ROOT_PASSWORD:-""}
+
 cat <<EOF > "$tmp_file"
 USE mysql;
 FLUSH PRIVILEGES;
