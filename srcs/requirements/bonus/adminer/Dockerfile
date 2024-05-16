@@ -14,6 +14,6 @@ WORKDIR /var/www/html
 
 RUN wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php \
     && mv adminer-4.8.1.php index.php \
-    && adduser -u 82 -D -S -G www-data www-data
+    && adduser -u 82 -D -S -G wp-data wp-data
 
 ENTRYPOINT [ "php -S [::]:9000 -t " ]
