@@ -1,0 +1,19 @@
+FROM alpine:3.18.6
+
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache \
+    php81 php81-common php81-session php81-iconv php81-gd \
+	php81-curl php81-xml php81-mysqli php81-imap php81-cgi \
+	php81-pdo php81-pdo_mysql php81-soap php81-posix php81-gettext \
+	php81-ldap php81-ctype php81-dom php81-simplexml \
+    wget \
+    && mkdir -p /var/www/html
+
+WORKDIR /var/www/html
+
+RUN wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php \
+    && mv adminer-4.8.1.php index.php \
+    && adduser -u 82 -D -S -G www-data www-data
+
+ENTRYPOINT [ "php -S [::]:9000 -t " ]
