@@ -13,22 +13,6 @@ services:
   networks:
    - inception
 
- wordpress:
-  container_name: wordpress
-  restart: unless-stopped
-  build:
-    context: requirements/wordpress
-    dockerfile: Dockerfile
-  image: wordpress:inception
-  volumes:
-    - wp_data:/var/www/wp
-  env_file: .env
-  networks:
-    - inception
-  depends_on:
-    mariadb:
-      condition: service_started
-
  nginx:
   container_name: nginx
   restart: unless-stopped
@@ -37,13 +21,29 @@ services:
    dockerfile: Dockerfile
   image: nginx:inception
   volumes:
-    - wp_data:/var/www/wp
+    - wp_data:/var/www/html
   ports:
    - 443:443
   networks:
    - inception
   depends_on:
     wordpress:
+      condition: service_started
+      
+ wordpress:
+  container_name: wordpress
+  restart: unless-stopped
+  build:
+    context: requirements/wordpress
+    dockerfile: Dockerfile
+  image: wordpress:inception
+  volumes:
+    - wp_data:/var/www/html
+  env_file: .env
+  networks:
+    - inception
+  depends_on:
+    mariadb:
       condition: service_started
 
 networks:
@@ -66,4 +66,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/${USER}/data/wp
+      device: /home/${USER}/data/wordpress
